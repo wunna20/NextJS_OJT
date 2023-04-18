@@ -7,7 +7,6 @@ import { GetStaticProps, GetStaticPaths } from 'next'
 import { useRouter } from 'next/router'
 
 
-
 export default function Post({ postData } : {
     postData : {
         title: string
@@ -46,6 +45,7 @@ export const getStaticPaths: GetStaticPaths = async () => {
 }
 
 export const getStaticProps: GetStaticProps = async ({ params }) =>  {
+    console.log('Test id', params)
     const postData = await getPostData(params.id);
     console.log('postData ->', postData)
     return {
