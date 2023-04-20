@@ -10,6 +10,7 @@ import Link from "next/link";
 import sqlite3 from "sqlite3";
 import { open } from "sqlite";
 import openDB from "@/utils/db";
+import { getAllPeople } from "@/lib/peopleData";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -19,18 +20,6 @@ type People = {
   email: string;
   age: number;
   gender: string;
-};
-
-export const getStaticProps: GetStaticProps<{ people: People[] }> = async (
-  context
-) => {
-  const db = await openDB();
-  const people = await db.all("select * from person");
-  return {
-    props: {
-      people,
-    },
-  };
 };
 
 export default function Home({ people }: { people: People[] }) {
@@ -322,3 +311,15 @@ export default function Home({ people }: { people: People[] }) {
     </>
   );
 }
+
+export const getStaticProps: GetStaticProps<{ people: People[] }> = async (
+  context
+) => {
+  const db = await openDB();
+  const people = await getAllPeople();
+  return {
+    props: {
+      people,
+    },
+  };
+};

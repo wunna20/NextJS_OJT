@@ -1,12 +1,4 @@
-import sqlite3 from "sqlite3";
-import { open } from "sqlite";
-
-async function openDB() {
-  return open({
-    filename: "./mydb.sqlite",
-    driver: sqlite3.Database,
-  });
-}
+import openDB from "@/utils/db";
 
 export async function getAllPersonId() {
   const db = await openDB();
@@ -19,4 +11,11 @@ export async function getAllPersonId() {
       }
     };
   });
+}
+
+export async function getVehicleByPerson(id: number) {
+  const db = await openDB();
+  const vehicles = await db.all('select * from vehicle where ownerId = ?', id);
+
+  return vehicles;
 }

@@ -9,7 +9,7 @@ import { Inter } from "next/font/google";
 import { GetStaticProps, GetStaticPaths } from "next";
 import { useRouter } from 'next/router';
 import openDB from "@/utils/db";
-import { getAllPersonId } from "@/lib/vehicles";
+import { getAllPersonId, getVehicleByPerson } from "@/lib/vehiclesData";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -18,21 +18,12 @@ type Vehicle = {
   model: string;
   ownerId: number;
 };
+
 export const getStaticPaths: GetStaticPaths = async () => {
   const paths = await getAllPersonId();
   return {
     paths,
     fallback: false,
-  };
-};
-
-export const getStaticProps: GetStaticProps = async ({ params }) =>  {
-  const db = await openDB();
-  const vehicles = await db.all('select * from vehicle where ownerId = ?', params?.id);
-    return {
-      props: {
-        vehicles,
-      },
   };
 };
 
@@ -97,3 +88,14 @@ export default function VehicleByPersonId({ vehicles }: { vehicles: Vehicle[] })
     </>
   );
 }
+
+export const getStaticProps: GetStaticProps = async ({ params }) =>  {
+  const db = await openDB();
+  // const vehicles = await db.all('select * from vehicle where ownerId = ?', params?.id);
+  const vehicles = await getVehicleByPerson(params?.id as unknown as number);
+    return {
+      props: {
+        vehicles,
+      },
+  };
+};
