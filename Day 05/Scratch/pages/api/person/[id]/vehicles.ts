@@ -15,4 +15,4 @@ export default async function getAllVehiclesByPersonId(req: NextApiRequest, res:
   const vehicles = await db.all('select * from vehicle where ownerId = ?',[req.query.id]);
 
   res.json(vehicles);
-} 
+}

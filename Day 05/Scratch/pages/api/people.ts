@@ -15,4 +15,4 @@ export default async function getPeople(req: NextApiRequest, res: NextApiRespons
   const people = await db.all('select * from person');
 
   res.json(people);
-} 
+}
