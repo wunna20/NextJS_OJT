@@ -1,7 +1,9 @@
 import { NextApiRequest, NextApiResponse } from 'next';
 import sqlite3 from 'sqlite3';
 import { open } from 'sqlite';
-import {compare} from 'bcrypt';
+import { compare } from 'bcrypt';
+import { sign } from 'jsonwebtoken';
+import { secret } from '@/api/secret';
 
 async function openDB() {
   return open({
@@ -19,7 +21,10 @@ export default async function signUp(req: NextApiRequest, res: NextApiResponse) 
     compare(req.body.password, person.password, function(err, result) {
       // result == true
       if (!err && result) {
-        res.json({message: "OK"});
+        const claims = { id: person.id, email: person.email };
+        const jwt = sign(claims, secret);
+        //res.json({message: "OK"});
+        res.json({ authToken: jwt });
       } else {
         res.json({message: "Incorrect Password"});
       }
