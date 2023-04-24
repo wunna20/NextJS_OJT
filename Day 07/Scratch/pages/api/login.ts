@@ -5,6 +5,16 @@ import { compare } from 'bcrypt';
 import { sign } from 'jsonwebtoken';
 import { secret } from '@/api/secret';
 
+/**
+ * @swagger
+ * /api/login:
+ *   post:
+ *     description: Returns the hello world
+ *     responses:
+ *       200:
+ *         description: hello world
+ */
+
 async function openDB() {
   return open({
     filename: './mydb.sqlite',

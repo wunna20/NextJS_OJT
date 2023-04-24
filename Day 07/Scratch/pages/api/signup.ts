@@ -1,7 +1,38 @@
 import { NextApiRequest, NextApiResponse } from 'next';
 import sqlite3 from 'sqlite3';
 import { open } from 'sqlite';
-import {hash} from 'bcrypt';
+import { hash } from 'bcrypt';
+
+/**
+ * @swagger
+ * /api/signup:
+ *    post:
+ *      summary: Creates a new user.
+ *      consumes:
+ *        - application/json
+ *      parameters:
+ *        - in: body
+ *          name: user
+ *          description: The user to create.
+ *          schema:
+ *            type: object
+ *            required:
+ *              - userName
+ *            properties:
+ *              name:
+ *                type: string
+ *              email:
+ *                type: string
+ *              age:
+ *                type: number
+ *              gender:
+ *                  type: string
+ *              password:
+ *                  type: string
+ *      responses:
+ *        201:
+ *          description: Created
+ */
 
 async function openDB() {
   return open({
@@ -15,9 +46,10 @@ export default async function signUp(req: NextApiRequest, res: NextApiResponse) 
 
   if (req.method === 'POST') {
 
-    hash(req.body.password, 10, async function(err, hash) {
+    hash(req.body.password, 10, async function (err, hash) {
       // Store hash in your password DB.
       const user = req.body;
+      console.log('user', req);
       const statement = await db.prepare(
         'INSERT INTO Person (name, email, age, gender, password) values (?, ?, ?, ?, ?)'
       );

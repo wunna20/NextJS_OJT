@@ -1,13 +1,15 @@
 /* eslint-disable react/no-unescaped-entities */
+import React from "react";
 import { useRef } from "react";
 import { getProviders, getSession, signIn } from "next-auth/react"
 
 const Signin = ({ providers } : {providers: any}) => {
 
-    console.log('signin')
+    console.log('provider', providers)
 
     const email = useRef("");
     const password = useRef("");
+
     return (
         <div className="flex items-center min-h-screen p-4 bg-gray-100 lg:justify-center">
             <div
@@ -62,11 +64,12 @@ const Signin = ({ providers } : {providers: any}) => {
                                 onClick={() => signIn("credentials", {
                                     email: email.current, password: password.current,
                                 })}
+                                // onClick={() => signIn()}
                             >
                                 Log in
                             </button>
                         </div>
-                        <div className="flex flex-col space-y-5">
+                        {/* <div className="flex flex-col space-y-5">
                             <span className="flex items-center justify-center space-x-2">
                                 <span className="h-px bg-gray-400 w-14"></span>
                                 <span className="font-normal text-gray-500">or login with</span>
@@ -102,7 +105,7 @@ const Signin = ({ providers } : {providers: any}) => {
                                         }
                                     })}
                             </div>
-                        </div>
+                        </div> */}
                     </form>
                 </div>
             </div>

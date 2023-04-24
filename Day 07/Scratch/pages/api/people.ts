@@ -5,11 +5,21 @@ import sqlite3 from 'sqlite3';
 import { open } from 'sqlite';
 import { secret } from '@/api/secret';
 
+/**
+ * @swagger
+ * /api/people:
+ *   get:
+ *     description: Returns the hello world
+ *     responses:
+ *       200:
+ *         description: hello world
+ */
+
 export const authenticated = (fn: NextApiHandler) => async (
   req: NextApiRequest,
   res: NextApiResponse
 ) => {
-  verify(req.headers.authorization!, secret, async function(err, decoded) {
+  verify(req.headers.authorization!, secret, async function(err: any, decoded: any) {
     if (!err && decoded) {
       return await fn(req, res);
     }
