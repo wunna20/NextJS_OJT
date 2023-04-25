@@ -8,11 +8,28 @@ import { secret } from '@/api/secret';
 /**
  * @swagger
  * /api/login:
- *   post:
- *     description: Returns the hello world
- *     responses:
- *       200:
- *         description: hello world
+ *    post:
+ *      summary: Login.
+ *      content:
+ *        - application/json
+ *      requestBody:
+ *        description: Login.
+ *        required: true
+ *        content:
+ *          application/json:
+ *            schema:
+ *              type: object
+ *              required:
+ *                - email
+ *                - password
+ *              properties:
+ *                email:
+ *                  type: string
+ *                password:
+ *                  type: string
+ *      responses:
+ *        201:
+ *          description: Logged in
  */
 
 async function openDB() {

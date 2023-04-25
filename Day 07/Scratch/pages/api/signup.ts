@@ -8,26 +8,31 @@ import { hash } from 'bcrypt';
  * /api/signup:
  *    post:
  *      summary: Creates a new user.
- *      consumes:
+ *      content:
  *        - application/json
- *      parameters:
- *        - in: body
- *          name: user
- *          description: The user to create.
- *          schema:
- *            type: object
- *            required:
- *              - userName
- *            properties:
- *              name:
- *                type: string
- *              email:
- *                type: string
- *              age:
- *                type: number
- *              gender:
+ *      requestBody:
+ *        description: The user to create.
+ *        required: true
+ *        content:
+ *          application/json:
+ *            schema:
+ *              type: object
+ *              required:
+ *                - name
+ *                - email
+ *                - age
+ *                - gender
+ *                - password
+ *              properties:
+ *                name:
  *                  type: string
- *              password:
+ *                email:
+ *                  type: string
+ *                age:
+ *                  type: number
+ *                gender:
+ *                  type: string
+ *                password:
  *                  type: string
  *      responses:
  *        201:
@@ -49,7 +54,6 @@ export default async function signUp(req: NextApiRequest, res: NextApiResponse) 
     hash(req.body.password, 10, async function (err, hash) {
       // Store hash in your password DB.
       const user = req.body;
-      console.log('user', req);
       const statement = await db.prepare(
         'INSERT INTO Person (name, email, age, gender, password) values (?, ?, ?, ?, ?)'
       );
